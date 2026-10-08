@@ -1,0 +1,15 @@
+# Rust / PhotoCraft (см. также photocraft/.gitignore)
+/photocraft/target/
+/photocraft/dist/
+
+# Angular (см. также angular/.gitignore)
+node_modules/
+/angular/dist/
+/angular/.angular/
+
+# Системные и IDE
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+*.swp

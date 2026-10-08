@@ -1,0 +1,21 @@
+# Текстовые файлы храним с LF; на Windows git сам отдаёт их с CRLF.
+* text=auto
+
+# Двоичные
+*.wasm binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.ico  binary
+*.icns binary
+*.psd  binary
+*.ttf  binary
+*.gz   binary
+
+# Скрипты — в «родных» переводах строк
+*.ps1 text eol=crlf
+*.sh  text eol=lf
+
+# Готовая сборка редактора и патч — не «сравнивать» как исходники
+angular/public/photocraft/** linguist-generated=true -diff
+patches/*.patch -text

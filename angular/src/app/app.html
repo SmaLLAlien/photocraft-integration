@@ -1,0 +1,41 @@
+<header>
+  <strong>PhotoCraft × Angular</strong>
+  <label class="btn">
+    Открыть файл…
+    <input #picker type="file" hidden
+           accept=".png,.jpg,.jpeg,.webp,.gif,.tif,.tiff,.bmp,.psd,.psb,.pcraft,.heic"
+           (change)="openFile(picker)" />
+  </label>
+  <button class="btn" (click)="openSample()">Открыть пример</button>
+  <span class="sep"></span>
+  <button class="btn primary" [disabled]="busy()" (click)="take('png')">Забрать PNG</button>
+  <button class="btn" [disabled]="busy()" (click)="take('jpg')">JPEG</button>
+  <button class="btn" [disabled]="busy()" (click)="take('psd')">PSD</button>
+  <span class="status">{{ status() }}</span>
+</header>
+
+<main>
+  <app-photocraft-editor class="editor" (loaded)="onLoaded()" (saved)="onSaved($event)" />
+
+  <aside>
+    <h2>Вернулось в Angular</h2>
+    @for (r of results(); track r.url) {
+      <figure>
+        @if (r.isImage) {
+          <img [src]="r.url" [alt]="r.name" />
+        } @else {
+          <div class="file">{{ r.name.split('.').pop()?.toUpperCase() }}</div>
+        }
+        <figcaption>
+          <a [href]="r.url" [download]="r.name">{{ r.name }}</a>
+          <small>{{ size(r.blob.size) }} · {{ r.via === 'saved' ? 'меню редактора' : 'запрос из Angular' }}</small>
+        </figcaption>
+      </figure>
+    } @empty {
+      <p class="hint">
+        Здесь появятся файлы из редактора: нажмите «Забрать PNG» или сохраните через
+        <b>File › Save / Export</b> внутри PhotoCraft.
+      </p>
+    }
+  </aside>
+</main>

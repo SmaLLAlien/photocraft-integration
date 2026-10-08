@@ -1,0 +1,32 @@
+# Проверка Angular-приложения: тесты и production-сборка (с готовым редактором из angular/public/photocraft).
+name: angular
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: angular
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: angular/package-lock.json
+
+      - run: npm ci
+      - run: npx ng test --watch=false
+      - run: npx ng build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: angular-dist
+          path: angular/dist/
