@@ -1,41 +1,39 @@
-<header>
-  <strong>PhotoCraft × Angular</strong>
-  <label class="btn">
-    Открыть файл…
-    <input #picker type="file" hidden
-           accept=".png,.jpg,.jpeg,.webp,.gif,.tif,.tiff,.bmp,.psd,.psb,.pcraft,.heic"
-           (change)="openFile(picker)" />
-  </label>
-  <button class="btn" (click)="openSample()">Открыть пример</button>
-  <span class="sep"></span>
-  <button class="btn primary" [disabled]="busy()" (click)="take('png')">Забрать PNG</button>
-  <button class="btn" [disabled]="busy()" (click)="take('jpg')">JPEG</button>
-  <button class="btn" [disabled]="busy()" (click)="take('psd')">PSD</button>
-  <span class="status">{{ status() }}</span>
-</header>
+<mat-toolbar class="toolbar">
+  <span>PhotoCraft × Angular</span>
+</mat-toolbar>
 
 <main>
-  <app-photocraft-editor class="editor" (loaded)="onLoaded()" (saved)="onSaved($event)" />
+  <div class="buttons">
+    <button mat-flat-button [matMenuTriggerFor]="loadMenu" [disabled]="loading()">Загрузить картинку</button>
+    <mat-menu #loadMenu="matMenu">
+      <button mat-menu-item (click)="imagePicker.click()">С компьютера…</button>
+      <button mat-menu-item (click)="loadRandom()">Случайная из интернета</button>
+    </mat-menu>
 
-  <aside>
-    <h2>Вернулось в Angular</h2>
-    @for (r of results(); track r.url) {
-      <figure>
-        @if (r.isImage) {
-          <img [src]="r.url" [alt]="r.name" />
-        } @else {
-          <div class="file">{{ r.name.split('.').pop()?.toUpperCase() }}</div>
-        }
-        <figcaption>
-          <a [href]="r.url" [download]="r.name">{{ r.name }}</a>
-          <small>{{ size(r.blob.size) }} · {{ r.via === 'saved' ? 'меню редактора' : 'запрос из Angular' }}</small>
-        </figcaption>
-      </figure>
-    } @empty {
-      <p class="hint">
-        Здесь появятся файлы из редактора: нажмите «Забрать PNG» или сохраните через
-        <b>File › Save / Export</b> внутри PhotoCraft.
-      </p>
-    }
-  </aside>
+    <button mat-stroked-button (click)="psdPicker.click()">Открыть PSD</button>
+
+    <input #imagePicker type="file" hidden
+           accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/tiff"
+           (change)="pickImage(imagePicker)" />
+    <input #psdPicker type="file" hidden accept=".psd,.psb" (change)="pickPsd(psdPicker)" />
+  </div>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" class="progress" />
+  }
+
+  @if (picture(); as pic) {
+    <mat-card appearance="outlined" class="preview">
+      <img mat-card-image [src]="pic.url" [alt]="pic.name" />
+      <mat-card-content>
+        <div class="name">{{ pic.name }}</div>
+        <div class="meta">{{ formatSize(pic.blob.size) }}{{ pic.edited ? ' · отредактировано' : '' }}</div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-flat-button (click)="edit()">Редактировать</button>
+      </mat-card-actions>
+    </mat-card>
+  } @else if (!loading()) {
+    <p class="hint">Загрузите картинку с компьютера или из интернета — она появится здесь, и её можно будет отредактировать. PSD открывается сразу в редакторе.</p>
+  }
 </main>

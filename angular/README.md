@@ -61,7 +61,12 @@ For more information on using the Angular CLI, including detailed command refere
 ## PhotoCraft внутри Angular
 
 Это демо-приложение со встроенным редактором PhotoCraft. Сборка редактора — `public/photocraft`,
-компонент — `src/app/photocraft/`, демо-страница — `src/app/app.*`.
+компонент — `src/app/photocraft/`.
+
+Демо-страница (`src/app/app.*`): «Загрузить картинку» (с компьютера или случайная с picsum.photos) →
+превью → «Редактировать»; «Открыть PSD» — сразу в редактор. Редактор открывается в модалке Angular
+Material (`src/app/editor-dialog/`): «Забрать» возвращает отредактированную картинку на страницу (PNG),
+«Сохранить PSD» скачивает документ со слоями на компьютер (Ctrl+S внутри редактора делает то же).
 
 - Запуск: `npm start` → http://localhost:4200
 - Пересборка редактора после изменений в `../photocraft`: `npm run photocraft:build`

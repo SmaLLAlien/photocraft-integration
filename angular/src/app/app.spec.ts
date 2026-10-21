@@ -3,9 +3,7 @@ import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [App],
-    }).compileComponents();
+    await TestBed.configureTestingModule({ imports: [App] }).compileComponents();
   });
 
   it('should create the app', () => {
@@ -13,10 +11,12 @@ describe('App', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should embed the PhotoCraft editor', async () => {
+  it('shows the load and PSD buttons, and no Edit button before a picture is loaded', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const el = fixture.nativeElement as HTMLElement;
-    expect(el.querySelector('app-photocraft-editor iframe')?.getAttribute('src')).toMatch(/\/photocraft\/index\.html$/);
+    const text = (fixture.nativeElement as HTMLElement).textContent ?? '';
+    expect(text).toContain('Загрузить картинку');
+    expect(text).toContain('Открыть PSD');
+    expect(text).not.toContain('Редактировать');
   });
 });
