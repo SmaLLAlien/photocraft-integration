@@ -1,2 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 html, body { margin: 0; height: 100%; }
+/* Шрифт без загрузки из интернета: системный (Segoe UI на Windows). Тема Material по умолчанию ждёт Roboto. */
+:root {
+  --app-font: Roboto, "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mat-sys-body-large-font: var(--app-font);
+  --mat-sys-body-medium-font: var(--app-font);
+  --mat-sys-body-small-font: var(--app-font);
+  --mat-sys-display-large-font: var(--app-font);
+  --mat-sys-display-medium-font: var(--app-font);
+  --mat-sys-display-small-font: var(--app-font);
+  --mat-sys-headline-large-font: var(--app-font);
+  --mat-sys-headline-medium-font: var(--app-font);
+  --mat-sys-headline-small-font: var(--app-font);
+  --mat-sys-label-large-font: var(--app-font);
+  --mat-sys-label-medium-font: var(--app-font);
+  --mat-sys-label-small-font: var(--app-font);
+  --mat-sys-title-large-font: var(--app-font);
+  --mat-sys-title-medium-font: var(--app-font);
+  --mat-sys-title-small-font: var(--app-font);
+}
+body { font-family: var(--app-font); }
+
+/* Модалка редактора: без внутренних отступов, редактор на всю площадь */
+.photocraft-dialog .mat-mdc-dialog-surface { padding: 0; overflow: hidden; border-radius: 12px; }
+.photocraft-dialog .mat-mdc-dialog-container { --mdc-dialog-container-shape: 12px; }
